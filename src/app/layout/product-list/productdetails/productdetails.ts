@@ -27,13 +27,26 @@ export class Productdetails implements OnInit {
   quantity = 1;
   message = '';
   ngOnInit() {
-    this.slug = this._activeRoute.snapshot.paramMap.get('slug') || '';
-    const resolved = this._activeRoute.snapshot.data['myProductRes'];
-    if (resolved) this.myProduct = resolved.data;
+    // The same Productdetails component instance is reused when navigating
+    // from one related product to another. Listen to route data so the
+    // resolved product is applied every time the slug changes.
+    this._activeRoute.data.subscribe((data) => {
+      const resolved = data['myProductRes'];
+      if (!resolved?.data) return;
+
+      this.slug = this._activeRoute.snapshot.paramMap.get('slug') || '';
+      this.myProduct = resolved.data;
+      this.quantity = 1;
+      this.message = '';
+      this.loadRelatedProducts();
+    });
+  }
+
+  private loadRelatedProducts() {
     this._productService
       .getAllProducts({
-        category: this.myProduct?.category,
-        subCategory: this.myProduct?.subCategory,
+        category: this.myProduct.category,
+        subCategory: this.myProduct.subCategory,
       })
       .subscribe({
         next: (res) => {
