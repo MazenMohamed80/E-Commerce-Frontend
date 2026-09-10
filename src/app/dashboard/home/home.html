@@ -1,0 +1,38 @@
+<h1>Admin dashboard</h1>
+<p class="lead">Manage the API-backed catalog, users and orders.</p>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="col">
+    <a routerLink="/dashboard/users-list" class="card h-100 text-decoration-none"
+      ><div class="card-body">
+        <h4>Users</h4>
+        <p>View users and toggle their blocked state.</p>
+      </div></a
+    >
+  </div>
+  <div class="col">
+    <a routerLink="/dashboard/products-list" class="card h-100 text-decoration-none"
+      ><div class="card-body">
+        <h4>Products</h4>
+        <p>Create, update and soft-delete products.</p>
+      </div></a
+    >
+  </div>
+  <div class="col">
+    <a routerLink="/dashboard/orders-list" class="card h-100 text-decoration-none"
+      ><div class="card-body">
+        <h4>Orders</h4>
+        <p>Review orders and change status.</p>
+      </div></a
+    >
+  </div>
+</div>
+<div class="card mt-4">
+  <div class="card-body">
+    <h4>Reports</h4>
+    <p class="mb-0">
+      The backend exposes the top 5 ordered products report. It does not currently expose the
+      requested date-range revenue endpoint.
+    </p>
+    <a routerLink="/dashboard/reports" class="btn btn-outline-primary mt-3">Open report</a>
+  </div>
+</div>

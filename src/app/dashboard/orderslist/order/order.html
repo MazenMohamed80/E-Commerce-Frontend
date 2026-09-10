@@ -1,0 +1,34 @@
+@if (message) {
+  <div class="alert alert-success">{{ message }}</div>
+}
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <div>
+        <h5>Order #{{ order._id }}</h5>
+        @if (isUserObject(order.user)) {
+          <p class="mb-1">
+            {{ order.user.name }} · {{ order.user.email }} · {{ order.user.phone }}
+          </p>
+        }
+      </div>
+      <strong>{{ order.totalPrice }} EGP</strong>
+    </div>
+    <p>{{ order.shippingAddress }} · Delivery {{ order.deliveryFee }} EGP</p>
+    @for (item of order.products; track item._id || item.product._id) {
+      <div>{{ item.product.name }} × {{ item.quantity }} @ {{ item.priceAtOrder }} EGP</div>
+    }
+    <div class="row mt-3 align-items-center">
+      <div class="col-md-4">
+        <select class="form-select" [(ngModel)]="order.status" [name]="order._id">
+          @for (status of statuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary" (click)="update(order)">Save status</button>
+      </div>
+    </div>
+  </div>
+</div>

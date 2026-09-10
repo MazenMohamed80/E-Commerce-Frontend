@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-between align-items-center mb-4 gap-3">
+  <div>
+    <h1 class="mb-1">Testimonials</h1>
+    <p class="text-muted mb-0">Review customer testimonials before they appear on the website.</p>
+  </div>
+  <button class="btn btn-outline-secondary" (click)="markNotificationsRead()">
+    Mark new as read
+  </button>
+</div>
+@if (message) {
+  <div class="alert alert-success">{{ message }}</div>
+}
+@if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+}
+@if (loading) {
+  <p>Loading testimonials...</p>
+} @else if (!testimonials.length) {
+  <div class="alert alert-light border">No testimonials have been submitted.</div>
+} @else {
+  <div class="row g-3">
+    @for (testimonial of testimonials; track testimonial._id) {
+      <div class="col-12">
+        <article class="card" [class.border-warning]="testimonial.isNew">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <h2 class="h5 mb-1">{{ userName(testimonial) }}</h2>
+                @if (userEmail(testimonial)) {
+                  <small class="text-muted">{{ userEmail(testimonial) }}</small>
+                }
+                <div class="stars mt-2">{{ stars(testimonial.rating) }}</div>
+              </div>
+              <div class="text-end">
+                <span
+                  class="badge"
+                  [class.bg-warning]="testimonial.status === 'pending'"
+                  [class.text-dark]="testimonial.status === 'pending'"
+                  [class.bg-success]="testimonial.status === 'approved'"
+                  [class.bg-danger]="testimonial.status === 'declined'"
+                  >{{ testimonial.status }}</span
+                >
+                @if (testimonial.isNew) {
+                  <div><small class="text-warning fw-semibold">New</small></div>
+                }
+              </div>
+            </div>
+            <p class="my-3">{{ testimonial.message }}</p>
+            @if (testimonial.status === 'pending') {
+              <button
+                class="btn btn-success btn-sm me-2"
+                (click)="updateStatus(testimonial, 'approved')"
+              >
+                Approve
+              </button>
+              <button
+                class="btn btn-outline-danger btn-sm"
+                (click)="updateStatus(testimonial, 'declined')"
+              >
+                Decline
+              </button>
+            } @else {
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                (click)="updateStatus(testimonial, 'pending')"
+              >
+                Set pending
+              </button>
+              @if (testimonial.status === 'approved') {
+                <button
+                  class="btn btn-outline-danger btn-sm ms-2"
+                  (click)="updateStatus(testimonial, 'declined')"
+                >
+                  Decline
+                </button>
+              }
+              @if (testimonial.status === 'declined') {
+                <button
+                  class="btn btn-outline-success btn-sm ms-2"
+                  (click)="updateStatus(testimonial, 'approved')"
+                >
+                  Approve
+                </button>
+              }
+            }
+          </div>
+        </article>
+      </div>
+    }
+  </div>
+}

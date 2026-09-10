@@ -1,0 +1,100 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Products</h1>
+  <button class="btn btn-primary" (click)="create()">Create product</button>
+</div>
+@if (error) {
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+}
+@if (showForm) {
+  <app-product-form [product]="editing" (saved)="saved()" />
+  <hr class="my-4" />
+}
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Season</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of pagedProducts; track product._id) {
+        <tr>
+          <td>
+            <img
+              [src]="staticURL + product.imgURL"
+              width="60"
+              height="60"
+              class="object-fit-cover"
+            />
+          </td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.stock }}</td>
+          <td>{{ product.season }}</td>
+          <td>{{ product.category }} / {{ product.subCategory }}</td>
+          <td>
+            <span
+              class="badge"
+              [class.bg-success]="!product.isDeleted"
+              [class.bg-secondary]="product.isDeleted"
+              >{{ product.isDeleted ? 'Deleted' : 'Active' }}</span
+            >
+          </td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="edit(product)">Edit</button
+            ><button
+              class="btn btn-sm"
+              [class.btn-outline-danger]="!product.isDeleted"
+              [class.btn-outline-success]="product.isDeleted"
+              (click)="remove(product)"
+            >
+              {{ product.isDeleted ? 'Restore' : 'Soft delete' }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (totalPages > 1) {
+  <nav class="mt-4" aria-label="Admin product pagination">
+    <ul class="pagination justify-content-center flex-wrap">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button
+          class="page-link"
+          type="button"
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+        >
+          Previous
+        </button>
+      </li>
+      @for (page of pageNumbers; track page) {
+        <li class="page-item" [class.active]="currentPage === page">
+          <button class="page-link" type="button" (click)="goToPage(page)">{{ page }}</button>
+        </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button
+          class="page-link"
+          type="button"
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+        >
+          Next
+        </button>
+      </li>
+    </ul>
+    <p class="text-center text-muted mb-0">Page {{ currentPage }} of {{ totalPages }}</p>
+  </nav>
+}

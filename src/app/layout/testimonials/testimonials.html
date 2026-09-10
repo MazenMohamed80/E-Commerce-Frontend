@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div><h1 class="mb-1">Testimonials</h1><p class="text-muted mb-0">Share your experience with Wearly.</p></div>
+</div>
+
+<div class="card mb-5">
+  <div class="card-body">
+    <h2 class="h5">Write a testimonial</h2>
+    <form (ngSubmit)="submit()" class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label" for="rating">Rating</label>
+        <select id="rating" class="form-select" name="rating" [(ngModel)]="rating">
+          <option [ngValue]="5">5 - Excellent</option>
+          <option [ngValue]="4">4 - Very good</option>
+          <option [ngValue]="3">3 - Good</option>
+          <option [ngValue]="2">2 - Fair</option>
+          <option [ngValue]="1">1 - Poor</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="message">Message</label>
+        <textarea id="message" class="form-control" name="message" rows="4" [(ngModel)]="text" required></textarea>
+      </div>
+      <div class="col-12"><button class="btn btn-primary" [disabled]="submitting">{{submitting ? 'Submitting...' : 'Submit testimonial'}}</button></div>
+    </form>
+    @if(message){<div class="alert alert-success mt-3 mb-0">{{message}}</div>}
+    @if(error){<div class="alert alert-danger mt-3 mb-0">{{error}}</div>}
+  </div>
+</div>
+
+<h2 class="h4 mb-3">My testimonials</h2>
+@if(!testimonials.length){<p class="text-muted">You have not submitted a testimonial yet.</p>}
+<div class="row g-3">
+  @for (testimonial of testimonials; track testimonial._id) {
+    <div class="col-12">
+      <article class="card testimonial-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start gap-3">
+            <div>
+              <div class="stars" aria-label="Rating">{{stars(testimonial.rating)}}</div>
+              <p class="mb-2 mt-2">{{testimonial.message}}</p>
+            </div>
+            <span class="badge" [class.bg-warning]="testimonial.status === 'pending'" [class.text-dark]="testimonial.status === 'pending'" [class.bg-success]="testimonial.status === 'approved'" [class.bg-danger]="testimonial.status === 'declined'">{{testimonial.status}}</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  }
+</div>

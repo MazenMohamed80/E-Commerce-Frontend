@@ -1,0 +1,48 @@
+@if (myProduct) {
+  <div class="card shadow-sm mb-5">
+    <div class="row g-0">
+      <div class="col-md-6">
+        <img
+          class="img-fluid h-100 detail-image"
+          [src]="staticURL + myProduct.imgURL"
+          [alt]="myProduct.name"
+        />
+      </div>
+      <div class="col-md-6">
+        <div class="card-body p-4">
+          <p class="text-uppercase small">{{ myProduct.category }} · {{ myProduct.subCategory }}</p>
+          <h1>{{ myProduct.name }}</h1>
+          <p>{{ myProduct.desc }}</p>
+          <h3>{{ myProduct.price }} EGP</h3>
+          <p>Season: {{ myProduct.season }}</p>
+          <p>Stock: {{ myProduct.stock }}</p>
+          <div class="d-flex gap-2 align-items-center">
+            <input
+              class="form-control quantity"
+              type="number"
+              min="1"
+              [max]="myProduct.stock"
+              [(ngModel)]="quantity"
+            /><button
+              class="btn btn-primary"
+              (click)="addToCart()"
+              [disabled]="myProduct.stock < 1"
+            >
+              Add to cart
+            </button>
+          </div>
+          @if (message) {
+            <p class="text-success mt-3">{{ message }}</p>
+          }
+          <a class="btn btn-link px-0 mt-2" routerLink="/cart">View cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="mb-3">Related products</h2>
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    @for (product of relatedProducts; track product._id) {
+      <div class="col"><app-product [myProduct]="product" /></div>
+    }
+  </div>
+}

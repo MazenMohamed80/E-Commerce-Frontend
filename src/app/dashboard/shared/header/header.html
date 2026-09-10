@@ -1,0 +1,35 @@
+<div class="container">
+  <header class="d-flex flex-wrap align-items-center justify-content-between py-3 border-bottom">
+    <a routerLink="/dashboard" class="navbar-brand fw-bold">Wearly Admin</a>
+    <ul class="nav">
+      <li><a routerLink="/dashboard/home" routerLinkActive="active" class="nav-link">Home</a></li>
+      <li>
+        <a routerLink="/dashboard/users-list" routerLinkActive="active" class="nav-link">Users</a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/products-list" routerLinkActive="active" class="nav-link"
+          >Products</a
+        >
+      </li>
+      <li>
+        <a routerLink="/dashboard/orders-list" routerLinkActive="active" class="nav-link">Orders</a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/reports" routerLinkActive="active" class="nav-link">Reports</a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/testimonials" routerLinkActive="active" class="nav-link"
+          >Testimonials
+          @if (newTestimonials > 0) {
+            <span class="badge bg-danger">{{ newTestimonials }}</span>
+          }
+        </a>
+      </li>
+    </ul>
+    <div>
+      Welcome {{ name }}
+      <button class="btn btn-outline-dark ms-2" routerLink="/home">Website</button
+      ><button class="btn btn-primary ms-2" (click)="logout()">Logout</button>
+    </div>
+  </header>
+</div>

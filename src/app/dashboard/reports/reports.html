@@ -1,0 +1,69 @@
+<h1>Sales report</h1>
+<form class="card card-body mb-4" (ngSubmit)="load()">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-5">
+      <label class="form-label">From</label>
+      <input class="form-control" type="date" name="from" [(ngModel)]="from" required />
+    </div>
+    <div class="col-md-5">
+      <label class="form-label">To</label>
+      <input class="form-control" type="date" name="to" [(ngModel)]="to" required />
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" [disabled]="loading">Generate</button>
+    </div>
+  </div>
+</form>
+@if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+}
+@if (loading) {
+  <p>Loading report...</p>
+}
+@if (!loading && report) {
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card card-body">
+        <small>Period</small
+        ><strong
+          >{{ report.from | date: 'mediumDate' }} – {{ report.to | date: 'mediumDate' }}</strong
+        >
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-body">
+        <small>Revenue</small><strong>{{ report.revenue }} EGP</strong>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-body">
+        <small>Orders</small><strong>{{ report.ordersCount }}</strong>
+      </div>
+    </div>
+  </div>
+  <h4>Top 5 ordered products</h4>
+  @if (!report.topProducts?.length) {
+    <div class="alert alert-secondary">No orders in this period.</div>
+  } @else {
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Quantity ordered</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of report.topProducts; track item; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.product.name }}</td>
+              <td>{{ item.quantity }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+}

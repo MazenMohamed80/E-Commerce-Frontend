@@ -1,0 +1,5 @@
+html, body { min-height: 100%; }
+body { margin: 0; background: #f7f7f8; color: #212529; }
+button:disabled { cursor: not-allowed; }
+.product-image { height: 280px; object-fit: cover; background: #eee; }
+.hero { background: #212529; color: white; border-radius: 1rem; }

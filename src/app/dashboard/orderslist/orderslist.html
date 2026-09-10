@@ -1,0 +1,13 @@
+<h1 class="mb-4">All orders</h1>
+@if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+}
+@if (loading) {
+  <p>Loading...</p>
+} @else if (!orders.length) {
+  <div class="alert alert-secondary">No orders found.</div>
+} @else {
+  @for (order of orders; track order._id) {
+    <app-order [order]="order" />
+  }
+}

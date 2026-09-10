@@ -1,0 +1,21 @@
+<div class="notification-stack">
+  @for (notification of notifications$ | async; track notification.id) {
+    <div
+      class="toast show border-0 shadow"
+      [class.text-bg-success]="notification.type === 'success'"
+      [class.text-bg-danger]="notification.type === 'error'"
+      [class.text-bg-warning]="notification.type === 'warning'"
+      [class.text-bg-info]="notification.type === 'info'"
+      role="alert"
+    >
+      <div class="d-flex">
+        <div class="toast-body">{{ notification.message }}</div>
+        <button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          (click)="dismiss(notification.id)"
+        ></button>
+      </div>
+    </div>
+  }
+</div>

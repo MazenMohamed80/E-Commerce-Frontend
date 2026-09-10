@@ -1,0 +1,1 @@
+.notification-stack{position:fixed;top:1rem;right:1rem;z-index:2000;width:min(420px,calc(100vw - 2rem));display:grid;gap:.75rem}.toast{display:block;opacity:1}

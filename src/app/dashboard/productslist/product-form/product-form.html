@@ -1,0 +1,87 @@
+<div class="card">
+  <div class="card-body">
+    <h4>{{ product ? 'Update product' : 'Create product' }}</h4>
+    <form (ngSubmit)="submit()">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Name</label
+          ><input class="form-control" name="name" [(ngModel)]="form.name" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Slug</label
+          ><input class="form-control" name="slug" [(ngModel)]="form.slug" required />
+        </div>
+        <div class="col-12">
+          <label class="form-label">Description</label
+          ><textarea
+            class="form-control"
+            name="desc"
+            rows="3"
+            [(ngModel)]="form.desc"
+            required
+          ></textarea>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Price</label
+          ><input
+            class="form-control"
+            name="price"
+            type="number"
+            min="0"
+            [(ngModel)]="form.price"
+            required
+          />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Stock</label
+          ><input
+            class="form-control"
+            name="stock"
+            type="number"
+            min="0"
+            [(ngModel)]="form.stock"
+            required
+          />
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Season</label
+          ><select class="form-select" name="season" [(ngModel)]="form.season">
+            <option value="summer">Summer</option>
+            <option value="winter">Winter</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Category</label
+          ><select class="form-select" name="category" [(ngModel)]="form.category">
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Sub-category</label
+          ><select class="form-select" name="subCategory" [(ngModel)]="form.subCategory">
+            <option value="pants">Pants</option>
+            <option value="shirts">Shirts</option>
+            <option value="socks">Socks</option>
+            <option value="hats">Hats</option>
+            <option value="tops">Tops</option>
+            <option value="bottoms">Bottoms</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Product image {{ product ? '(optional)' : '(required)' }}</label
+          ><input
+            class="form-control"
+            type="file"
+            accept="image/*"
+            (change)="choose($event)"
+            [required]="!product"
+          />
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" [disabled]="saving">
+        {{ saving ? 'Saving...' : 'Save product' }}
+      </button>
+    </form>
+  </div>
+</div>

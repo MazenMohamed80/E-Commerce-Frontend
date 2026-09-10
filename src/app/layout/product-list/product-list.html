@@ -1,0 +1,93 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Our products</h1>
+  <a routerLink="/cart" class="btn btn-outline-dark">Cart</a>
+</div>
+<form class="card card-body mb-4" (ngSubmit)="loadProducts(true)">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <input
+        class="form-control"
+        name="keyword"
+        [(ngModel)]="keyword"
+        placeholder="Search name or description"
+      />
+    </div>
+    <div class="col-md-2">
+      <select class="form-select" name="season" [(ngModel)]="season">
+        <option value="">All seasons</option>
+        <option value="summer">Summer</option>
+        <option value="winter">Winter</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select class="form-select" name="category" [(ngModel)]="category">
+        <option value="">All categories</option>
+        <option value="men">Men</option>
+        <option value="women">Women</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select class="form-select" name="subCategory" [(ngModel)]="subCategory">
+        <option value="">All types</option>
+        <option value="pants">Pants</option>
+        <option value="shirts">Shirts</option>
+        <option value="socks">Socks</option>
+        <option value="hats">Hats</option>
+        <option value="tops">Tops</option>
+        <option value="bottoms">Bottoms</option>
+      </select>
+    </div>
+    <div class="col-md-2 d-flex gap-2">
+      <button class="btn btn-primary flex-fill">Search</button
+      ><button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">
+        Clear
+      </button>
+    </div>
+  </div>
+</form>
+@if (loading) {
+  <p>Loading products...</p>
+} @else if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+} @else if (!myProducts.length) {
+  <div class="alert alert-secondary">No products found.</div>
+} @else {
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    @for (product of pagedProducts; track product._id) {
+      <div class="col"><app-product [myProduct]="product" /></div>
+    }
+  </div>
+}
+
+@if (totalPages > 1) {
+  <nav class="mt-4" aria-label="Product pagination">
+    <ul class="pagination justify-content-center flex-wrap">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button
+          class="page-link"
+          type="button"
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+        >
+          Previous
+        </button>
+      </li>
+      @for (page of pageNumbers; track page) {
+        <li class="page-item" [class.active]="currentPage === page">
+          <button class="page-link" type="button" (click)="goToPage(page)">{{ page }}</button>
+        </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button
+          class="page-link"
+          type="button"
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+        >
+          Next
+        </button>
+      </li>
+    </ul>
+    <p class="text-center text-muted mb-0">Page {{ currentPage }} of {{ totalPages }}</p>
+  </nav>
+}

@@ -1,0 +1,58 @@
+<h1>Checkout</h1>
+@if (loading) {
+  <p>Loading...</p>
+} @else if (error && !cart) {
+  <div class="alert alert-danger">{{ error }}</div>
+} @else {
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-body">
+          <h4>Shipping address</h4>
+          <p class="text-muted">
+            Enter the title of an address already saved on your account. The API uses that address
+            to calculate delivery fee and save the shipping address on the order.
+          </p>
+          <select class="form-select" name="addressTitle" [(ngModel)]="addressTitle">
+            <option value="">Select address</option>
+            @for (address of profile?.addresses ?? []; track address.title) {
+              <option [value]="address.title">{{ address.title }} — {{ address.address }}</option>
+            }
+          </select>
+          <div class="mt-3">
+            <input
+              class="form-control"
+              name="addressTitleText"
+              [(ngModel)]="addressTitle"
+              placeholder="Or type the address title"
+            />
+          </div>
+          <a routerLink="/account" class="btn btn-link px-0">Manage addresses</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card">
+        <div class="card-body">
+          <h4>Order summary</h4>
+          <p>Products: {{ cart.numOfProducts }}</p>
+          <p>Products total: {{ cart.totalPrice }} EGP</p>
+          <p class="text-muted">Delivery fee is selected by the backend from the chosen address.</p>
+          @if (cart.hasPriceChangedItems) {
+            <div class="alert alert-warning">Price changes must be resolved first.</div>
+          }
+          <button
+            class="btn btn-primary w-100"
+            (click)="placeOrder()"
+            [disabled]="placing || cart.hasPriceChangedItems"
+          >
+            {{ placing ? 'Placing...' : 'Place order — cash on delivery' }}
+          </button>
+          @if (error) {
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

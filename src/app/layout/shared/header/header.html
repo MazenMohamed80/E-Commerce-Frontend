@@ -1,0 +1,42 @@
+<div class="container">
+  <header
+    class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom"
+  >
+    <a routerLink="/home" class="navbar-brand fw-bold">Wearly</a>
+    <ul class="nav col-12 col-md-auto justify-content-center">
+      <li><a routerLink="/home" routerLinkActive="active" class="nav-link px-2">Home</a></li>
+      <li>
+        <a routerLink="/products-list" routerLinkActive="active" class="nav-link px-2">Products</a>
+      </li>
+      <li>
+        <a routerLink="/testimonials" routerLinkActive="active" class="nav-link px-2"
+          >Testimonials</a
+        >
+      </li>
+      <li>
+        <a routerLink="/cart" routerLinkActive="active" class="nav-link px-2"
+          >Cart ({{ cartCount }})</a
+        >
+      </li>
+      @if (name) {
+        <li><a routerLink="/orders" routerLinkActive="active" class="nav-link px-2">Orders</a></li>
+      }
+    </ul>
+    @if (!name) {
+      <div>
+        <button type="button" routerLink="/login" class="btn btn-outline-primary me-2">Login</button
+        ><button type="button" routerLink="/signup" class="btn btn-primary">Sign-up</button>
+      </div>
+    } @else {
+      <div class="text-end">
+        Welcome, {{ name }}
+        <button type="button" class="btn btn-outline-dark ms-2" routerLink="/account">
+          My Account</button
+        ><button type="button" class="btn btn-primary ms-2" (click)="logout()">Logout</button>
+        @if (role === 'admin') {
+          <button type="button" class="btn btn-dark ms-2" routerLink="/dashboard">Dashboard</button>
+        }
+      </div>
+    }
+  </header>
+</div>
