@@ -10,7 +10,7 @@
       <p class="text-muted small">
         {{ myProduct.category }} · {{ myProduct.subCategory }} · {{ myProduct.season }}
       </p>
-      <p class="card-text flex-grow-1">{{ myProduct.desc }}</p>
+      <p class="card-text flex-grow-1 text-truncate">{{ myProduct.desc }}</p>
       <p class="fw-bold mb-2">{{ myProduct.price }} EGP</p>
       <p class="small">Stock: {{ myProduct.stock }}</p>
       @if (message) {
